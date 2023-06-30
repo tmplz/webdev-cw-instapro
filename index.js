@@ -18,7 +18,7 @@ import {
 
 export let user = getUserFromLocalStorage();
 export let page = null;
-export let posts = [];
+export let appPosts = [];
 
 const getToken = () => {
   const token = user ? `Bearer ${user.token}` : undefined;
@@ -57,7 +57,7 @@ export const goToPage = (newPage, data) => {
       return getPosts({ token: getToken() })
         .then((newPosts) => {
           page = POSTS_PAGE;
-          posts = newPosts;
+          appPosts = newPosts;
           renderApp();
         })
         .catch((error) => {
@@ -70,7 +70,7 @@ export const goToPage = (newPage, data) => {
       // TODO: реализовать получение постов юзера из API
       console.log("Открываю страницу пользователя: ", data.userId);
       page = USER_POSTS_PAGE;
-      posts = [];
+      appPosts = [];
       return renderApp();
     }
 
@@ -82,9 +82,8 @@ export const goToPage = (newPage, data) => {
 
   throw new Error("страницы не существует");
 };
-
-const renderApp = () => {
-  const appEl = document.getElementById("app");
+export const appEl = document.getElementById("app");
+export const renderApp = () => {
   if (page === LOADING_PAGE) {
     return renderLoadingPageComponent({
       appEl,

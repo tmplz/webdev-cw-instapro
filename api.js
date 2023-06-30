@@ -1,8 +1,17 @@
+
+
 // Замени на свой, чтобы получить независимый от других набор данных.
+
+import { renderPostsPageComponent } from "./components/posts-page-component.js";
+
 // "боевая" версия инстапро лежит в ключе prod
-const personalKey = "prod";
+const personalKey = "dmitry-buntov";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
+
+
+let appPosts = [];
+
 
 export function getPosts({ token }) {
   return fetch(postsHost, {
@@ -18,8 +27,20 @@ export function getPosts({ token }) {
 
       return response.json();
     })
-    .then((data) => {
-      return data.posts;
+    .then((responseData) => {
+      appPosts = responseData.posts.map(post => {
+        return {
+          name: post.user.name,
+          date: post.createdAt,
+          id: post.user.id,
+          image: post.user.imageUrl,
+          postImage: post.imageUrl,
+          dataId: post.id,
+          description: post.description,
+        };
+      });
+
+      renderPostsPageComponent();
     });
 }
 
@@ -68,3 +89,5 @@ export function uploadImage({ file }) {
     return response.json();
   });
 }
+
+export { appPosts as appPosts };
