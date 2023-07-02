@@ -5,9 +5,10 @@
 import { renderPostsPageComponent } from "./components/posts-page-component.js";
 
 // "боевая" версия инстапро лежит в ключе prod
-const personalKey = "dmitry-buntov";
+const personalKey = 'dmitry-buntov';
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
+
 
 
 let appPosts = [];
@@ -42,6 +43,30 @@ export function getPosts({ token }) {
 
       renderPostsPageComponent();
     });
+}
+
+export function addPostsApi(postData) {
+  const token = postData.token;
+  return fetch(postsHost, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+    body: JSON.stringify({
+      description: postData.description,
+      imageUrl: postData.imageUrl,
+    }),
+  })
+  .then(response => {
+    if (response.status === 400) {
+      throw new Error("Неверный запрос");
+    }
+    if (response.status === 500) {
+      throw new Error("Ошибка сервера");
+    } else {
+      return response.json();
+    }
+  })
 }
 
 // https://github.com/GlebkaF/webdev-hw-api/blob/main/pages/api/user/README.md#%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%D1%81%D1%8F
@@ -90,4 +115,4 @@ export function uploadImage({ file }) {
   });
 }
 
-export { appPosts as appPosts };
+export { appPosts };
