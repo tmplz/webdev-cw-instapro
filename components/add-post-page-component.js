@@ -59,16 +59,26 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
       });
     }
 
-    document.getElementById("add-button").addEventListener("click", () => {
+    document.getElementById('add-button').addEventListener('click', async () => {
       const textAreaPosts = appEl.querySelector('.textarea');
       const token = getToken();
-      onAddPostClick({
-        description: textAreaPosts.value,
-        imageUrl: imageUrl,
-        token: token
-      });
+    
+      console.log('Добавляю пост...');
+    
+      try {
+        await onAddPostClick({
+          description: textAreaPosts.value,
+          imageUrl: imageUrl,
+          token: token,
+        });
+        console.log('Пост успешно добавлен!');
+      } catch (error) {
+        console.error('Ошибка при добавлении поста: ', error);
+      }
     });
   };
   
   render();
 }
+
+

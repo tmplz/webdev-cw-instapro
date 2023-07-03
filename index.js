@@ -68,10 +68,21 @@ export const goToPage = (newPage, data) => {
 
     if (newPage === USER_POSTS_PAGE) {
       // TODO: реализовать получение постов юзера из API
-      console.log("Открываю страницу пользователя: ", data.userId);
-      page = USER_POSTS_PAGE;
-      appPosts = [];
-      return renderApp();
+      const token = getToken();
+      const userId = data.userId
+      page = LOADING_PAGE;
+      renderApp();
+
+      return getPosts({ token, userId })
+      .then((newPosts) => {
+        page = USER_POSTS_PAGE;
+        appPosts = newPosts;
+        renderApp();
+      })
+      .catch((error) => {
+        console.error(error);
+        goToPage(POSTS_PAGE);
+      })
     }
 
     page = newPage;
@@ -82,7 +93,9 @@ export const goToPage = (newPage, data) => {
 
   throw new Error("страницы не существует");
 };
+
 export const appEl = document.getElementById("app");
+
 export const renderApp = () => {
   if (page === LOADING_PAGE) {
     return renderLoadingPageComponent({
