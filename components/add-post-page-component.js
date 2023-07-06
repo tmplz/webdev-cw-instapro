@@ -75,7 +75,7 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
       } catch (error) {
         console.error('Ошибка при добавлении поста: ', error);
       }
-    });
+    }); 
   };
   
   render();

@@ -6,11 +6,11 @@ import { appPosts } from "../api.js";
 const postsContainer = (post, index) => {
   return `<li class="post" data-index = '${index}'>
       <div class="post-header" data-user-id="${post.id}">
-      <img src="${post.postImage}" class="post-header__user-image">
+      <img src="${post.image}" class="post-header__user-image">
       <p class="post-header__user-name">${post.name}</p>
       </div>
       <div class="post-image-container">
-      <img class="post-image" src="${post.image}">
+      <img class="post-image" src="${post.postImage}">
       </div>
       <div class="post-likes">
       <button data-post-id="${post.dataId}" class="like-button">
@@ -63,3 +63,4 @@ export function renderPostsPageComponent() {
     });
   }
 }
+ 
