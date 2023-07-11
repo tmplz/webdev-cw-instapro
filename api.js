@@ -4,6 +4,7 @@
 
 import { renderPostsPageComponent } from "./components/posts-page-component.js";
 
+
 // "боевая" версия инстапро лежит в ключе prod
 const personalKey = 'dmitry-buntov';
 const baseHost = "https://webdev-hw-api.vercel.app";
@@ -125,4 +126,20 @@ export function uploadImage({ file }) {
   });
 }
 
-export { appPosts };
+export function getLikeUser({ token, dataId, isLiked }) {
+  {
+    return fetch(postsHost + `/${dataId}${isLiked ? '/dislike' : '/like'}`, {
+      method: "POST",
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then((response) => {    
+      return response.json()
+    })
+  }
+}
+
+
+
+

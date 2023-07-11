@@ -135,15 +135,12 @@ export const renderApp = () => {
   }
 
   if (page === POSTS_PAGE) {
-    return renderPostsPageComponent({
-      appEl,
-    });
+    return renderPostsPageComponent();
   }
 
   if (page === USER_POSTS_PAGE) {
     return renderPostsPageComponent({
-      appEl,
-      userId: user.id,
+      userId: data.userId,
       token: getToken(),
     });
   }
