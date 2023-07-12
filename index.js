@@ -69,7 +69,7 @@ export const goToPage = (newPage, data) => {
     if (newPage === USER_POSTS_PAGE) {
       // TODO: реализовать получение постов юзера из API
       const token = getToken();
-      const userId = data.userId
+      const userId = data.userId;
       page = LOADING_PAGE;
       renderApp();
 

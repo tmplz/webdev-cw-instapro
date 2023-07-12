@@ -81,14 +81,11 @@ export function renderPostsPageComponent() {
         } else {
           appPosts[index].isLiked = true;
           appPosts[index].likes.push({
-            id: post.user.id,
-            name: post.user.name,
+            id: appPosts[index].user.id,
+            name: appPosts[index].user.name,
           });
         }
-        renderPostsPageComponent({
-          appEl,
-          appPosts,
-        });
+        renderPostsPageComponent();
       })
       .catch((error) => {
         console.error(error);

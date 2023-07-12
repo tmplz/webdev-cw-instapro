@@ -2,7 +2,7 @@
 
 // Замени на свой, чтобы получить независимый от других набор данных.
 
-import { renderPostsPageComponent } from "./components/posts-page-component.js";
+//import { renderPostsPageComponent } from "./components/posts-page-component.js";
 
 
 // "боевая" версия инстапро лежит в ключе prod
@@ -12,7 +12,7 @@ const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 
 
 
-let appPosts = [];
+//let appPosts = [];
 
 
 export function getPosts({ token }) {
@@ -31,7 +31,7 @@ export function getPosts({ token }) {
     })
     .then((responseData) => {
       console.log(responseData);
-      appPosts = responseData.posts.map(post => {
+      return responseData.posts.map(post => {
         return {
           name: post.user.name,
           date: post.createdAt,
@@ -42,8 +42,6 @@ export function getPosts({ token }) {
           description: post.description,
         };
       });
-
-      renderPostsPageComponent();
     });
 }
 
@@ -127,17 +125,24 @@ export function uploadImage({ file }) {
 }
 
 export function getLikeUser({ token, dataId, isLiked }) {
-  {
-    return fetch(postsHost + `/${dataId}${isLiked ? '/dislike' : '/like'}`, {
-      method: "POST",
-      headers: {
-        Authorization: token,
-      },
-    })
-    .then((response) => {    
-      return response.json()
-    })
-  }
+  return fetch(postsHost + `/${dataId}${isLiked ? '/dislike' : '/like'}`, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+    body: JSON.stringify({}),
+  })
+  .then((response) => {    
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error("Ошибка сервера");
+    }
+  })
+  .catch((error) => {
+    console.error(error.message);
+    throw error;
+  });
 }
 
 
