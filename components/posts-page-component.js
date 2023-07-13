@@ -19,7 +19,7 @@ const postsContainer = (post, index) => {
         <img class="post-image" src="${post.postImage}">
       </div>
       <div class="post-likes">
-        <button data-post-id="${post.id}" class="like-button">
+        <button data-post-id="${post.dataId}" class="like-button">
           <img src="./assets/images/${likeButtonImage}">
         </button>
         <p class="post-likes-text">
@@ -81,8 +81,7 @@ export function renderPostsPageComponent() {
         } else {
           appPosts[index].isLiked = true;
           appPosts[index].likes.push({
-            id: appPosts[index].user.id,
-            name: appPosts[index].user.name,
+            dataId,
           });
         }
         renderPostsPageComponent();
